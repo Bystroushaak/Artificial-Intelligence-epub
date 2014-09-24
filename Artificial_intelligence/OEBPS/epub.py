@@ -149,6 +149,10 @@ def gen_content_opf(chapters, cover, toc, img_dir):
     )
     manifest = "\n".join(manifest)
 
+    # text/html is not appropriate for XHTML/OPS, use application/xhtml+xml
+    # instead (don't ask..)
+    manifest = manifest.replace("text/html", "application/xhtml+xml")
+
     # create spine
     chapters = sorted(chapters, key=lambda x: _filename_to_int(x.filename))
 

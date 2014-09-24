@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package version="2.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId">
+<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+<dc:title>Artificial Intelligence</dc:title>
+<dc:title>foundations of computational agents</dc:title>
+<dc:creator opf:role="aut">David Poole</dc:creator>
+<dc:creator opf:role="aut">Alan Mackworth</dc:creator>
+<dc:format/>
+<dc:date>2010-06-07</dc:date>
+<dc:subject/>
+<dc:description/>
+<dc:rights/>
+<dc:language>en</dc:language>
+<dc:identifier id="BookId" opf:scheme="ISBN">9780521519007</dc:identifier>
+<meta content="cover" name="cover"/>
+</metadata>

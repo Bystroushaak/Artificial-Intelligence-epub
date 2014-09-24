@@ -30,11 +30,11 @@ DOWNER = httpkie.Downloader()
 TOC_FN = "toc.ncx"  # don't change this
 CONTENT_FN = "content.opf"  # don't change this
 CONTENT_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
-<HTML xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <body>
 %s
 </body>
-</HTML>"""
+</html>"""
 URL_CACHE = set()
 
 
@@ -106,9 +106,8 @@ class Image(Content):
 
 
 class Text(Content):
-    def __init__(self, url, filename=None, recurse=False):
+    def __init__(self, url, filename=None):
         self.title = ""
-        self.recurse = recurse
         super(Text, self).__init__(url, filename)
 
     def _parse_sub_contents(self, dom):
@@ -117,9 +116,6 @@ class Text(Content):
                 Image(image.params["src"])
             )
             image.params["src"] = self.subcontents[-1].filename
-
-        if not self.recurse:
-            return
 
         for link in dom.find("a"):
             if "href" not in link.params:
@@ -148,8 +144,6 @@ class Text(Content):
         self.title = dom.find("title")[0].getContent()
         self.title = self.title.split("--")[-1].strip()
 
-        print self.title
-
         if not main:
             return content
 
@@ -166,7 +160,7 @@ class TOC(Text):
     def _parse_sub_contents(self, dom):
         for link in dom.match("li", "a"):
             self.subcontents.append(
-                Text(link.params["href"], recurse=True)
+                Text(link.params["href"])
             )
 
 
