@@ -1,20 +1,26 @@
 #! /usr/bin/env bash
 
+which pip > /dev/null 2>&1
+if [ $? -eq 1 ]; then
+    echo "This script requires 'python-pip' package."
+    sudo aptitude install python-pip || exit
+fi
+
 which ebook-convert > /dev/null 2>&1
 if [ $? -eq 1 ]; then
-    echo "This script requires 'calibre' package installed."
+    echo "This script requires 'calibre' package."
     sudo aptitude install calibre || exit
 fi
 
 python -c "import dhtmlparser" 
 if [ $? -eq 1 ]; then
-    echo "This script requires 'pydhtmlparser' python package installed."
+    echo "This script requires 'pydhtmlparser' python package."
     sudo pip install pydhtmlparser || exit
 fi
 
 python -c "import httpkie"
 if [ $? -eq 1 ]; then
-    echo "This script requires 'httpkie' python package installed."
+    echo "This script requires 'httpkie' python package."
     sudo pip install httpkie || exit
 fi
 
