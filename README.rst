@@ -30,3 +30,7 @@ This command will download all informations from book's website and create `epub
 Note
 ----
 This repository doesn't contain any content published at the book's website. Book is published under `Creative Commons Attribution-Noncommercial-No Derivative Works 2.5 Canada License <http://creativecommons.org/licenses/by-nc-nd/2.5/ca/>`_, which allows you to *"Share — copy and redistribute the material in any medium or format"*, which is exactly what this convertor does.
+
+Note 2
+------
+ISBN is from .pdf version of the book, which you can find if you gonna try hard enough. It is probably wrong, but better than nothing.
