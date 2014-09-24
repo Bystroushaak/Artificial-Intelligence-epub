@@ -12,7 +12,6 @@ from string import Template
 
 
 # Variables ===================================================================
-# <link href="wileysd_template_v1.2.css" rel="stylesheet" type="text/css"/>
 COVER_TEMPLATE = """<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Cover</title>
@@ -20,7 +19,7 @@ COVER_TEMPLATE = """<html xmlns="http://www.w3.org/1999/xhtml">
 </head>
 <body>
 <a id="cover"/>
-<img alt="cover" src="%s" style="text-align: center;"/>
+<img alt="cover" src="%s" style="height: 100%;"/>
 </body>
 </html>"""
 

@@ -9,10 +9,8 @@ import os.path
 import urllib2  # for HTTPError
 import mimetypes
 
-
 import httpkie
 import dhtmlparser
-
 
 import epub
 
