@@ -15,11 +15,11 @@ from string import Template
 COVER_TEMPLATE = """<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Cover</title>
-<meta content="urn:uuid:%s" name="Adept.expected.resource"/>
+<meta content="urn:uuid:$uid" name="Adept.expected.resource"/>
 </head>
 <body>
 <a id="cover"/>
-<img alt="cover" src="%s" style="height: 100%;"/>
+<img alt="cover" src="$path" style="height: 100%;"/>
 </body>
 </html>"""
 
@@ -104,7 +104,7 @@ def gen_cover(path, uid=None):
     if not uid:
         uid = str(uuid.uuid4())
 
-    return COVER_TEMPLATE % (uid, path)
+    return Template(COVER_TEMPLATE).substitute(uid=uid, path=path)
 
 
 def gen_toc_ncx(title, chapters):
