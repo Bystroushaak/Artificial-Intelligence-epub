@@ -17,12 +17,18 @@ import dhtmlparser
 import epub
 
 
-# Variables ===================================================================
-DOWNER = httpkie.Downloader()
+# Configuration ===============================================================
 BASE_URL = "http://www.cs.ubc.ca/~poole/aibook/html/"
+TOC_URL = "http://www.cs.ubc.ca/~poole/aibook/html/ArtInt.html"
+COVER_URL = "http://enbooks.cn/images/btbimages/182/9780521519007.jpg"
 IMAGES = "images"
 COVER_FN = "book_cover.xhtml"
 
+
+# Variables ===================================================================
+DOWNER = httpkie.Downloader()
+TOC_FN = "toc.ncx"  # don't change this
+CONTENT_FN = "content.opf"  # don't change this
 CONTENT_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
 <HTML xmlns="http://www.w3.org/1999/xhtml">
 <body>
@@ -101,9 +107,9 @@ class Image(Content):
 
 class Text(Content):
     def __init__(self, url, filename=None, recurse=False):
+        self.title = ""
         self.recurse = recurse
         super(Text, self).__init__(url, filename)
-
 
     def _parse_sub_contents(self, dom):
         for image in dom.find("img"):
@@ -127,6 +133,7 @@ class Text(Content):
             self.subcontents.append(
                 Text(link)
             )
+
             # add also subcontents of subcontents
             self.subcontents.extend(
                 self.subcontents[-1].get_sub_contents()
@@ -141,12 +148,14 @@ class Text(Content):
         self.title = dom.find("title")[0].getContent()
         self.title = self.title.split("--")[-1].strip()
 
+        print self.title
+
         if not main:
             return content
 
         self._parse_sub_contents(main[0])
 
-        return CONTENT_TEMPLATE % str(main[0])
+        return CONTENT_TEMPLATE % main[0].getContent()
 
     def get_sub_contents(self):
         # skip items that were already in URL_CACHE
@@ -166,8 +175,8 @@ if __name__ == '__main__':
     if not os.path.exists(IMAGES):
         os.mkdir(IMAGES)
 
-    toc = TOC("http://www.cs.ubc.ca/~poole/aibook/html/ArtInt.html")
-    cover = Image("http://enbooks.cn/images/btbimages/182/9780521519007.jpg")
+    toc = TOC(TOC_URL)
+    cover = Image(COVER_URL)
     package = [
         toc,
         cover,
@@ -188,9 +197,35 @@ if __name__ == '__main__':
             f.write(item.content)
 
     # create cover for book
+    cover_obj = Text(COVER_FN, COVER_FN)  # used to hold object with cover data
+    cover_obj.title = "Cover"
+
     cover_xml = epub.gen_cover(cover.filename)
     with open(COVER_FN, "w") as f:
         f.write(cover_xml)
 
     # create toc.ncx
-    
+    print "Generating '%s'.." % TOC_FN
+
+    chapters = filter(lambda x: isinstance(x, Text), package)
+
+    toc_xml = epub.gen_toc_ncx(
+        toc.title,
+        [cover_obj] + chapters
+    )
+    with open(TOC_FN, "w") as f:
+        f.write(toc_xml)
+
+    # create content.opf
+    print "Generating '%s'.." % CONTENT_FN
+
+    content_xml = epub.gen_content_opf(
+        [cover_obj] + chapters,
+        cover_obj,
+        toc,
+        IMAGES
+    )
+    with open(CONTENT_FN, "w") as f:
+        f.write(content_xml)
+
+    print "Done. Don't forget to update metadata section in '%s'." % CONTENT_FN
