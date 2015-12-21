@@ -7,6 +7,7 @@
 import os
 import os.path
 import urllib2  # for HTTPError
+import httplib  # for BadStatusLine
 import mimetypes
 
 import httpkie
@@ -59,7 +60,7 @@ class Content(object):
 
         # check cache
         global URL_CACHE
-        if url in URL_CACHE:
+        if url in URL_CACHE or " " in url:
             self.skip_this = True
             # print "\tSkipping", self.url
             return
@@ -70,7 +71,7 @@ class Content(object):
 
         try:
             self.content = self.get_content()
-        except urllib2.HTTPError:
+        except (urllib2.HTTPError, httplib.BadStatusLine, TypeError):
             self.skip_this = True
             print "\tSkipping", self.url
 
