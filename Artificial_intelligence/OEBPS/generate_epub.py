@@ -19,7 +19,7 @@ import epub
 # Configuration ===============================================================
 BASE_URL = "http://www.cs.ubc.ca/~poole/aibook/html/"
 TOC_URL = "http://www.cs.ubc.ca/~poole/aibook/html/ArtInt.html"
-COVER_URL = "http://enbooks.cn/images/btbimages/182/9780521519007.jpg"
+COVER_URL = "https://raw.githubusercontent.com/Bystroushaak/Artificial-Intelligence-epub/master/9780521519007.jpg"
 IMAGES = "images"
 COVER_FN = "book_cover.xhtml"
 
